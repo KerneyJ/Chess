@@ -1,13 +1,11 @@
 from classes import *
+from pieces import *
 win = GraphWin("Window", 512, 512)
 
 b = Board(1, 1)
 b.drawBoard(win)
-p1 = Player('w', b)
-
-for i in p1.pieces:
-    i.drawSelf(win)
-
+p = WhiteBishop()
+p.drawSelf(win)
 while True:
     k = win.getKey()
     if k == 'Escape':

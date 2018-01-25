@@ -23,14 +23,23 @@ from classes import *
 class Tile(Rectangle):
     def __init__(self, x, y):
         Rectangle.__init__(self, Point(x, y), Point(x + 64, y + 64))
+        self.__pieces = []
+
+    def addPiece(self, p: Piece):
+        self.__pieces.append(p)
+
+    def checkCapture(self):
+        if len(self.__pieces) == 2:
+            self.__pieces.pop(0)
+
+    def drawPiece(self):
+        self.__pieces[0].move() # STOPPING POINT 9:34 1/24/2018
 
 
 class Board(object):
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-
-        # Give tiles to the board
+    def __init__(self, p1: Player, p2: Player):
+        self.player1 = p1
+        self.player2 = p2
         self.tiles = self.__giveTiles()
 
     @staticmethod
@@ -50,29 +59,22 @@ class Board(object):
 
         return tiles
 
+    def placePieces(self):
+        # Place player1
+        for i in range(8):
+            self.tiles[5][i].addPiece(self.player1.pieces[i]) # Place pawns
+
     def drawBoard(self, win: GraphWin):
         for i in self.tiles:
             for j in i:
                 j.draw(win)
 
-    def getWidth(self):
-        return self.width
-
-    def getHeight(self):
-        return self.height
-
-    def setWidth(self, width):
-        self.width = width
-
-    def setHeight(self, height):
-        self.height = height
 
 class Piece(object):
 
-    def __init__(self, point = Tile(1,1), image= ""):
-        self.image = Image(point, image)
+    def __init__(self, image= ""):
+        self.image = Image(Point(1,1), image)
         self.inPlay = True
-        self.position = '1a'
 
     def drawSelf(self, win: GraphWin):
         self.image.draw(win)
@@ -80,13 +82,14 @@ class Piece(object):
     def undrawSelf(self):
         self.image.undraw()
 
+
 # Pawns
 
 
 class WhitePawn(Piece):
 
-    def __init__(self, point = Tile(1,1)):
-        Piece.__init__(self, point, "Images\WPawn.png")
+    def __init__(self):
+        Piece.__init__(self, "Images\WPawn.png")
 
     def move(self):
         pass
@@ -94,27 +97,28 @@ class WhitePawn(Piece):
 
 class BlackPawn(Piece):
 
-    def __init__(self, point = Tile(1,1)):
-        Piece.__init__(self, point, "Images\BPawn.png")
+    def __init__(self):
+        Piece.__init__(self, "Images\BPawn.png")
 
     def move(self):
         pass
+
 
 # Rooks
 
 
 class WhiteRook(Piece):
 
-    def __init__(self, point = Tile(1,1)):
-        Piece.__init__(self, point, "Images\WRook.png")
+    def __init__(self):
+        Piece.__init__(self, "Images\WRook.png")
 
     def move(self):
         pass
 
 
 class BlackRook(Piece):
-    def __init__(self, point = Tile(1,1)):
-        Piece.__init__(self, point, "Images\BRook.png")
+    def __init__(self):
+        Piece.__init__(self, "Images\BRook.png")
 
     def move(self):
         pass
@@ -123,16 +127,16 @@ class BlackRook(Piece):
 
 
 class WhiteKnight(Piece):
-    def __init__(self, point = Tile(1,1)):
-        Piece.__init__(self, point, "Images\WKnight.png")
+    def __init__(self):
+        Piece.__init__(self, "Images\WKnight.png")
 
     def move(self):
         pass
 
 
 class BlackKnight(Piece):
-    def __init__(self, point = Tile(1,1)):
-        Piece.__init__(self, point, "Images\BKnight.png")
+    def __init__(self):
+        Piece.__init__(self, "Images\BKnight.png")
 
     def move(self):
         pass
@@ -142,16 +146,16 @@ class BlackKnight(Piece):
 
 
 class WhiteBishop(Piece):
-    def __init__(self, point = Tile(1,1)):
-        Piece.__init__(self, point, "Images\WBishop.png")
+    def __init__(self):
+        Piece.__init__(self, "Images\WBishop.png")
 
     def move(self):
         pass
 
 
 class BlackBishop(Piece):
-    def __init__(self, point=Tile(1, 1)):
-        Piece.__init__(self, point, "Images\BBishop.png")
+    def __init__(self):
+        Piece.__init__(self, "Images\BBishop.png")
 
     def move(self):
         pass
@@ -159,16 +163,16 @@ class BlackBishop(Piece):
 
 
 class WhiteKing(Piece):
-    def __init__(self, point = Tile(1,1)):
-        Piece.__init__(self, point, "Images\WKing.png")
+    def __init__(self):
+        Piece.__init__(self, "Images\WKing.png")
 
     def move(self):
         pass
 
 
 class BlackKing(Piece):
-    def __init__(self, point = Tile(1,1)):
-        Piece.__init__(self, point, "Images\BKing.png")
+    def __init__(self):
+        Piece.__init__(self, "Images\BKing.png")
 
     def move(self):
         pass
@@ -178,8 +182,8 @@ class BlackKing(Piece):
 
 class WhiteQueen(Piece):
 
-    def __init__(self, point = Tile(1,1)):
-        Piece.__init__(self, point, "Images\WQueen.png")
+    def __init__(self):
+        Piece.__init__(self, "Images\WQueen.png")
 
     def move(self):
         pass
@@ -187,8 +191,8 @@ class WhiteQueen(Piece):
 
 class BlackQueen(Piece):
 
-    def __init__(self, point = Tile(1,1)):
-        Piece.__init__(self, point, "Images\BQueen.png")
+    def __init__(self):
+        Piece.__init__(self, "Images\BQueen.png")
 
     def move(self):
         pass
