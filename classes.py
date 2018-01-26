@@ -18,59 +18,6 @@ layout
 
 from ugraphic import *
 
-
-class Tile(Rectangle):
-    def __init__(self, p1, p2):
-        Rectangle.__init__(self, p1, p2)
-        self.__pieces = []
-
-    def addPiece(self, p):
-        self.__pieces.append(p)
-
-    def checkCapture(self):
-        if len(self.__pieces) == 2:
-            self.__pieces.pop(0)
-
-    def drawPiece(self):
-        dx = self.getCenter().getX() - self.__pieces[0].image.getAnchor().getX()
-        dy = self.getCenter().getY() - self.__pieces[0].image.getAnchor().getY() # Override error for move method
-
-        self.__pieces[0].move(dx, dy)
-
-class Board(object):
-    def __init__(self, p1, p2):
-        self.player1 = p1
-        self.player2 = p2
-        self.tiles = self.__giveTiles()
-
-    @staticmethod
-    def __giveTiles():
-        tiles = []
-        for i in range(8):
-            temp = []
-            for j in range(8):
-                r = Tile(Point(i * 64, j * 64), Point((i * 64) + 64, (j * 64) + 64))
-                if (i + 1) % 2 == 0 and (j + 1) % 2 == 0:
-                    r.setFill(color_rgb(194, 144, 60))
-                if (j + 1) % 2 != 0 and (i + 1) % 2 != 0:
-                    r.setFill(color_rgb(194, 144, 60))
-
-                temp.append(r)
-            tiles.append(temp)
-
-        return tiles
-
-    def placePieces(self):
-        # Place player1
-        for i in range(8):
-            self.tiles[5][i].addPiece(self.player1.pieces[i]) # Place pawns
-
-    def drawBoard(self, win: GraphWin):
-        for i in self.tiles:
-            for j in i:
-                j.draw(win)
-
-
 class Piece(object):
 
     def __init__(self, image= ""):
@@ -244,3 +191,56 @@ class Player(object):
 
             self.pieces.append(BlackKing())
             self.pieces.append(BlackQueen())
+
+
+class Tile(Rectangle):
+    def __init__(self, p1, p2):
+        Rectangle.__init__(self, p1, p2)
+        self.__pieces = []
+
+    def addPiece(self, p):
+        self.__pieces.append(p)
+
+    def checkCapture(self):
+        if len(self.__pieces) == 2:
+            self.__pieces.pop(0)
+
+    def drawPiece(self, win):
+        dx = self.getCenter().getX() - self.__pieces[0].image.getAnchor().getX()
+        dy = self.getCenter().getY() - self.__pieces[0].image.getAnchor().getY() # Override error for move method
+
+        self.__pieces[0].image.move(dx, dy)
+        self.__pieces[0].image.draw(win)
+
+
+class Board(object):
+    def __init__(self, p1: Player, p2: Player):
+        self.player1 = p1
+        self.player2 = p2
+        self.tiles = self.__giveTiles()
+
+    @staticmethod
+    def __giveTiles():
+        tiles = []
+        for i in range(8):
+            temp = []
+            for j in range(8):
+                r = Tile(Point(i * 64, j * 64), Point((i * 64) + 64, (j * 64) + 64))
+                if (i + 1) % 2 == 0 and (j + 1) % 2 == 0:
+                    r.setFill(color_rgb(194, 144, 60))
+                if (j + 1) % 2 != 0 and (i + 1) % 2 != 0:
+                    r.setFill(color_rgb(194, 144, 60))
+
+                temp.append(r)
+            tiles.append(temp)
+
+        return tiles
+
+    def drawBoard(self, win: GraphWin):
+        for i in self.tiles:
+            for j in i:
+                j.draw(win)
+
+    def playerPieces(self):
+        for i in range(8):
+            self.tiles[1][i].addPiece(self.player1.pieces)
