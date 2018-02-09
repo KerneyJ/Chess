@@ -37,10 +37,10 @@ Attempted to move a piece at a specific index
 Draw circles where pieces could move
 
 pieces.py:
-nothing
+nothing noteworthy
 
 classes.py:
-nothing
+nothing noteworthy
 
 ### version Alpha 0.3 through Alpha 0.4
 Nothing note worthy
@@ -54,15 +54,78 @@ It can draw the board
 Game loop is at the bottom.
 
 board.py:
-nothing
+nothing noteworthy
 
 classes.py:
-nothing
+nothing noteworthy
 
 player.py:
-nothing
+nothing noteworthy
 
 pieces.py:
-nothing
+nothing noteworthy
 
 ### version Alpha 0.6
+test.py:
+removed
+
+classes.py:
+removed
+
+board.py:
+nothing noteworthy
+
+player.py:
+nothing noteworthy
+
+pieces.py:
+nothing noteworthy
+
+game.py:
+nothing noteworthy
+
+### version Alpha 0.7
+player.py:
+  select method:
+  double for loop to find the tile that was clicked on (should become its own method)
+  single for loop to find the piece that owns the tile that was clicked on
+  piece is defaulted to none but it should always change value
+  inside if piece equal none test the type of the piece and move accordingly
+
+board.py:
+nothing noteworthy
+
+pieces.py:
+nothing noteworthy
+
+game.py:
+nothing noteworthy
+
+### version Alpha 0.8
+pieces.py:
+SetTile method created for pieces
+
+player.py:
+Able to move pieces to any spot
+to move: undraw setTile(to new tile) re-draw
+
+board.py:
+nothing noteworthy
+
+game.py:
+nothing noteworthy
+
+### version Alpha 0.9
+pieces.py:
+created update tiles method and can move method(specific to each type of chess piece)
+
+player.py:
+while loop that is true as long as the tile selected by a player is not a tile that the piece can move too
+This while loop will keep going on until a piece that is okay with the system is selected
+
+board.py:
+nothing noteworthy
+
+game.py:
+nothing noteworthy
+
