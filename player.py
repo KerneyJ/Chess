@@ -8,7 +8,7 @@ class Player(object):
         self.pieces = []
         self.pieceTiles = []
 
-    def select(self, win: GraphWin, board):
+    def select(self, win: GraphWin, board, game):
         click = win.getMouse()
         tile = None
         piece = None
@@ -35,7 +35,7 @@ class Player(object):
                         break
 
             # Check what type of piece is selected
-            if type(self.pieces[index].type) is type(WhitePawn):
+            if self.pieces[index].type is WhitePawn:
                 self.pieces[index].updateAvailableTiles(board)
                 # Make sure that the tile selected is a tile that the pawn can move to
                 # if not true then find a new tile
@@ -46,7 +46,7 @@ class Player(object):
                             if j.getP1().getX() < click.getX() < j.getP2().getX() and j.getP1().getY() < click.getY() < j.getP2().getY():
                                 tile2 = j
 
-            elif type(self.pieces[index].type) is type(BlackPawn):
+            elif self.pieces[index].type is BlackPawn:
                 self.pieces[index].updateAvailableTiles(board)
                 # Make sure that the tile selected is a tile that the pawn can move to
                 # if not true then find a new tile
@@ -57,19 +57,19 @@ class Player(object):
                             if j.getP1().getX() < click.getX() < j.getP2().getX() and j.getP1().getY() < click.getY() < j.getP2().getY():
                                 tile2 = j
 
-            elif type(self.pieces[index].type) is type(WhiteRook) or type(self.pieces[index].type) is type(BlackRook):
+            elif self.pieces[index].type is WhiteRook or self.pieces[index].type is BlackRook:
+                self.pieces[index].updateAvailableTiles(board, game)
+
+            elif self.pieces[index].type is WhiteKnight or self.pieces[index].type is BlackKnight:
                 pass
 
-            elif type(self.pieces[index].type) is type(WhiteKnight) or type(self.pieces[index].type) is type(BlackKnight):
+            elif self.pieces[index].type is WhiteBishop or self.pieces[index].type is BlackBishop:
                 pass
 
-            elif type(self.pieces[index].type) is type(WhiteBishop) or type(self.pieces[index].type) is type(BlackBishop):
+            elif self.pieces[index].type is WhiteKing or self.pieces[index].type is BlackKing:
                 pass
 
-            elif type(self.pieces[index].type) is type(WhiteKing) or type(self.pieces[index].type) is type(BlackKing):
-                pass
-
-            elif type(self.pieces[index].type) is type(WhiteQueen) or type(self.pieces[index].type) is type(BlackQueen):
+            elif self.pieces[index].type is WhiteQueen or self.pieces[index].type is BlackQueen:
                 pass
 
             self.pieces[index].undrawSelf()

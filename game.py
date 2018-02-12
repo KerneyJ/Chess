@@ -68,12 +68,12 @@ g.start(win)
 play = True
 while play:
     if Player.turn % 2 != 0:
-        g.player1.select(win, g.board)
-        print("p1")
+        g.player1.select(win, g.board, g)
+        #print("p1")
 
     else:
-        g.player2.select(win, g.board)
-        print("p2")
+        g.player2.select(win, g.board, g)
+        #print("p2")
 
     k = win.checkKey()
     if k == 'Escape':
