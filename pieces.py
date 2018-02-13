@@ -34,6 +34,7 @@ class WhitePawn(Piece):
     def __init__(self, t):
         Piece.__init__(self, "Images\WPawn.png", t)
         self.amountsMoves = 0
+        self.TEAM = 0
         # print(self.tile.number)
 
     def updateAvailableTiles(self, board):
@@ -68,6 +69,7 @@ class BlackPawn(Piece):
     def __init__(self, t):
         Piece.__init__(self, "Images\BPawn.png", t)
         self.amountMoves = 0
+        self.TEAM = 1
 
     def updateAvailableTiles(self, board):
         self.available_tiles = []
@@ -102,19 +104,14 @@ class WhiteRook(Piece):
 
     def __init__(self, t):
         Piece.__init__(self, "Images\WRook.png", t)
+        self.TEAM = 0
 
     def updateAvailableTiles(self, board, game):
         self.available_tiles = []
-        row = 0
-        col = 0
-        # Get the position of the rook
-        for i in range(len(board.tiles)):
-            for j in range(len(board.tiles[i])):
-                if board.tiles[i][j].number == self.tile.number:
-                    row = i
-                    col = j
+        row = self.findRow(board)  # Row location of the white rook
+        col = self.findCol(board)  # Column location of the white rook
 
-        # get all of the tiles that are in the same row and column.
+        # Get all of the tiles that are in the same row and column.
         horizontalTiles = board.tiles[row]
         verticalTiles = []
         for i in range(len(board.tiles)):
@@ -128,16 +125,23 @@ class WhiteRook(Piece):
         for i in game.player2.pieces:
             pieces.append(i)
 
-            # print the potential available tiles
-    
-        print(row)
-        for i in horizontalTiles:
-            print(i)
-        print()
+        for i in range(len(horizontalTiles) + row):
+            pass
 
-        print(col)
-        for i in verticalTiles:
-            print(i)
+    def findRow(self, board):
+        for i in range(len(board.tiles)):
+            for j in range(len(board.tiles[i])):
+                if board.tiles[i][j].number == self.tile.number:
+                    row = i
+        return row
+
+    def findCol(self, board):
+        for i in range(len(board.tiles)):
+            for j in range(len(board.tiles[i])):
+                if board.tiles[i][j].number == self.tile.number:
+                    col = i
+
+        return col
 
     def canMove(self, tile):
         can_move = False
@@ -152,6 +156,7 @@ class BlackRook(Piece):
 
     def __init__(self, t):
         Piece.__init__(self, "Images\BRook.png", t)
+        self.TEAM = 1
 
     def updateAvailableTiles(self, board):
         self.available_tiles = []
@@ -172,6 +177,7 @@ class WhiteKnight(Piece):
 
     def __init__(self, t):
         Piece.__init__(self, "Images\WKnight.png", t)
+        self.TEAM = 0
 
     def move(self):
         pass
@@ -181,6 +187,7 @@ class BlackKnight(Piece):
 
     def __init__(self, t):
         Piece.__init__(self, "Images\BKnight.png", t)
+        self.TEAM = 1
 
     def move(self):
         pass
@@ -193,6 +200,7 @@ class WhiteBishop(Piece):
 
     def __init__(self, t):
         Piece.__init__(self, "Images\WBishop.png", t)
+        self.TEAM = 0
 
     def move(self):
         pass
@@ -201,6 +209,7 @@ class WhiteBishop(Piece):
 class BlackBishop(Piece):
     def __init__(self, t):
         Piece.__init__(self, "Images\BBishop.png", t)
+        self.TEAM = 1
 
     def move(self):
         pass
@@ -212,6 +221,7 @@ class BlackBishop(Piece):
 class WhiteKing(Piece):
     def __init__(self, t):
         Piece.__init__(self, "Images\WKing.png", t)
+        self.TEAM = 0
 
     def move(self):
         pass
@@ -220,6 +230,7 @@ class WhiteKing(Piece):
 class BlackKing(Piece):
     def __init__(self, t):
         Piece.__init__(self, "Images\BKing.png", t)
+        self.TEAM = 1
 
     def move(self):
         pass
@@ -232,6 +243,7 @@ class WhiteQueen(Piece):
 
     def __init__(self, t):
         Piece.__init__(self, "Images\WQueen.png", t)
+        self.TEAM = 0
 
     def move(self):
         pass
@@ -241,6 +253,7 @@ class BlackQueen(Piece):
 
     def __init__(self, t):
         Piece.__init__(self, "Images\BQueen.png", t)
+        self.TEAM = 1
 
     def move(self):
         pass
