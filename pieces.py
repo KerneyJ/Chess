@@ -4,10 +4,11 @@ from ugraphic import *
 
 class Piece(object):
 
-    def __init__(self, image, t):
-        self.image = Image(t.getCenter(), image)
+    def __init__(self, image):
+        self.number = 0
+        self.image = Image(Point(0,0),image)
         self.inPlay = True
-        self.tile = t
+
         self.type = type(self)
         self.available_tiles = []
 
@@ -31,29 +32,11 @@ class Piece(object):
 
 class WhitePawn(Piece):
 
-    def __init__(self, t):
-        Piece.__init__(self, "Images\WPawn.png", t)
+    def __init__(self):
+        Piece.__init__(self, "Images\WPawn.png")
         self.amountsMoves = 0
-        self.TEAM = 0
-        # print(self.tile.number)
-
-    def updateAvailableTiles(self, board):
-        # Error every tile is an available tile
-        self.available_tiles = []
-        if self.amountsMoves == 0:
-            for i in board.tiles:
-                for j in i:
-                    if self.tile.number-1 == j.number or self.tile.number-2 == j.number:
-                        self.available_tiles.append(j)
-                        # print(j.number, " ", self.tile.number)
-        else:
-            for i in board.tiles:
-                for j in i:
-                    if j.number == self.tile.number - 1:
-                        self.available_tiles.append(j)
-
-        # print(self.available_tiles)
         self.amountsMoves += 1
+
 
     def canMove(self, tile):
         can_move = False
@@ -66,26 +49,9 @@ class WhitePawn(Piece):
 
 class BlackPawn(Piece):
 
-    def __init__(self, t):
-        Piece.__init__(self, "Images\BPawn.png", t)
+    def __init__(self):
+        Piece.__init__(self, "Images\BPawn.png")
         self.amountMoves = 0
-        self.TEAM = 1
-
-    def updateAvailableTiles(self, board):
-        self.available_tiles = []
-        if self.amountMoves == 0:
-            for i in board.tiles:
-                for j in i:
-                    if self.tile.number + 1 == j.number or self.tile.number + 2 == j.number:
-                        self.available_tiles.append(j)
-                        # print(j.number, " ", self.tile.number)
-        else:
-            for i in board.tiles:
-                for j in i:
-                    if j.number == self.tile.number + 1:
-                        self.available_tiles.append(j)
-
-        # print(self.available_tiles)
         self.amountMoves += 1
 
     def canMove(self, tile):
@@ -101,47 +67,10 @@ class BlackPawn(Piece):
 
 
 class WhiteRook(Piece):
+    num = 0
 
-    def __init__(self, t):
-        Piece.__init__(self, "Images\WRook.png", t)
-        self.TEAM = 0
-
-    def updateAvailableTiles(self, board, game):
-        self.available_tiles = []
-        row = self.findRow(board)  # Row location of the white rook
-        col = self.findCol(board)  # Column location of the white rook
-
-        # Get all of the tiles that are in the same row and column.
-        horizontalTiles = board.tiles[row]
-        verticalTiles = []
-        for i in range(len(board.tiles)):
-            verticalTiles.append(board.tiles[i][col])
-
-        # Get all of the pieces from in the game
-        pieces = []
-        for i in game.player1.pieces:
-            pieces.append(i)
-
-        for i in game.player2.pieces:
-            pieces.append(i)
-
-        for i in range(len(horizontalTiles) + row):
-            pass
-
-    def findRow(self, board):
-        for i in range(len(board.tiles)):
-            for j in range(len(board.tiles[i])):
-                if board.tiles[i][j].number == self.tile.number:
-                    row = i
-        return row
-
-    def findCol(self, board):
-        for i in range(len(board.tiles)):
-            for j in range(len(board.tiles[i])):
-                if board.tiles[i][j].number == self.tile.number:
-                    col = i
-
-        return col
+    def __init__(self):
+        Piece.__init__(self, "Images\WRook.png")
 
     def canMove(self, tile):
         can_move = False
@@ -153,13 +82,12 @@ class WhiteRook(Piece):
 
 
 class BlackRook(Piece):
+    num = 0
 
-    def __init__(self, t):
-        Piece.__init__(self, "Images\BRook.png", t)
-        self.TEAM = 1
-
-    def updateAvailableTiles(self, board):
-        self.available_tiles = []
+    def __init__(self):
+        Piece.__init__(self, "Images\BRook.png")
+        self.number = BlackRook.num
+        BlackRook.num += 1
 
     def canMove(self, tile):
         can_move = False
@@ -175,9 +103,10 @@ class BlackRook(Piece):
 
 class WhiteKnight(Piece):
 
-    def __init__(self, t):
-        Piece.__init__(self, "Images\WKnight.png", t)
-        self.TEAM = 0
+    def __init__(self):
+        Piece.__init__(self, "Images\WKnight.png")
+        self.number = BlackRook.num
+        BlackRook.num += 1
 
     def move(self):
         pass
@@ -185,9 +114,10 @@ class WhiteKnight(Piece):
 
 class BlackKnight(Piece):
 
-    def __init__(self, t):
-        Piece.__init__(self, "Images\BKnight.png", t)
-        self.TEAM = 1
+    def __init__(self):
+        Piece.__init__(self, "Images\BKnight.png")
+        self.number = BlackRook.num
+        BlackRook.num += 1
 
     def move(self):
         pass
@@ -198,18 +128,20 @@ class BlackKnight(Piece):
 
 class WhiteBishop(Piece):
 
-    def __init__(self, t):
-        Piece.__init__(self, "Images\WBishop.png", t)
-        self.TEAM = 0
+    def __init__(self):
+        Piece.__init__(self, "Images\WBishop.png")
+        self.number = BlackRook.num
+        BlackRook.num += 1
 
     def move(self):
         pass
 
 
 class BlackBishop(Piece):
-    def __init__(self, t):
-        Piece.__init__(self, "Images\BBishop.png", t)
-        self.TEAM = 1
+    def __init__(self):
+        Piece.__init__(self, "Images\BBishop.png")
+        self.number = BlackRook.num
+        BlackRook.num += 1
 
     def move(self):
         pass
@@ -219,18 +151,20 @@ class BlackBishop(Piece):
 
 
 class WhiteKing(Piece):
-    def __init__(self, t):
-        Piece.__init__(self, "Images\WKing.png", t)
-        self.TEAM = 0
+    def __init__(self):
+        Piece.__init__(self, "Images\WKing.png")
+        self.number = BlackRook.num
+        BlackRook.num += 1
 
     def move(self):
         pass
 
 
 class BlackKing(Piece):
-    def __init__(self, t):
-        Piece.__init__(self, "Images\BKing.png", t)
-        self.TEAM = 1
+    def __init__(self):
+        Piece.__init__(self, "Images\BKing.png")
+        self.number = BlackRook.num
+        BlackRook.num += 1
 
     def move(self):
         pass
@@ -241,9 +175,10 @@ class BlackKing(Piece):
 
 class WhiteQueen(Piece):
 
-    def __init__(self, t):
-        Piece.__init__(self, "Images\WQueen.png", t)
-        self.TEAM = 0
+    def __init__(self):
+        Piece.__init__(self, "Images\WQueen.png")
+        self.number = BlackRook.num
+        BlackRook.num += 1
 
     def move(self):
         pass
@@ -251,9 +186,10 @@ class WhiteQueen(Piece):
 
 class BlackQueen(Piece):
 
-    def __init__(self, t):
-        Piece.__init__(self, "Images\BQueen.png", t)
-        self.TEAM = 1
+    def __init__(self):
+        Piece.__init__(self, "Images\BQueen.png")
+        self.number = BlackRook.num
+        BlackRook.num += 1
 
     def move(self):
         pass
