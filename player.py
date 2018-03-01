@@ -52,16 +52,10 @@ class Player(object):
                 row2 = int(moveSpot.getP1().getX() / 64)
                 col2 = int(moveSpot.getP1().getY() / 64)
 
-            """
-            while not self.RookCanMove(row, col, row2, col2, board.b):
-                moveSpot = self.getTile(board, win)
-                row2 = int(moveSpot.getP1().getX() / 64)
-                col2 = int(moveSpot.getP1().getY() / 64)"""
-
         board.b[col][row] = "EE"  # Set the place that was clicked on to an empty tile
         board.b[col2][row2] = piece
 
-    def WPCanMove(self, row, col, row2, col2):
+    def WPCanMove(self, row, col, row2, col2):  # Fix the double move and attack
         if col2 == col - 1:
             if row2 == row:
                 return True
@@ -72,7 +66,7 @@ class Player(object):
 
         return False
 
-    def BPCanMove(self, row, col, row2, col2):
+    def BPCanMove(self, row, col, row2, col2): # Fix the double move and attack
         if col2 == col + 1:
             if row2 == row:
                 return True
@@ -90,30 +84,28 @@ class Player(object):
         stopLeft = 0
         stopDown = 0
 
-        # print(row, col)
-        for i in range(col-1, -1, -1):  # going up
-            # print(board[i][row])
-            if board[i][row] is not "EE":
-                stopUp = i
-                break
+        def getStop(start, stop, step, row=None, col=None):
+            if not (row is None):
+                for i in range(start, stop, step):
+                    if not board[i][row] is "EE":
+                        return i
 
-        for i in range(col+1, 8, 1):  # going down
-            # print(board[i][row])
-            if board[i][row] is not "EE":
-                stopDown = i
-                break
+                return stop
 
-        for i in range(row+1, 8, 1):  # going right
-            if board[col][i] is not "EE":
-                stopRight = i
-                break
+            elif not (col is None):
+                for i in range(start, stop, step):
+                    if not board[col][i] is "EE":
+                        return i
 
-        for i in range(row-1, -1, -1):
-            #  print(board[col][i])
-            if board[col][i] is not "EE":
-                stopLeft = i
-                break
+                return stop
 
+            else:
+                raise AssertionError("Error row and column are none")
+
+        stopUp = getStop(col-1, -1, -1, row, col)
+        stopDown = getStop(col+1, 8, 1, row, col)
+        stopRight = getStop(row+1, 8, 1, row, col) + 1
+        stopLeft = getStop(row-1, -1, -1, row, col) - 1
         # print("Up: ", stopUp, "\nRight: ", stopRight, "\nDown: ", stopDown, "\nLeft: ", stopLeft)
         if stopUp < col2 < stopDown:  # Check if it is in between stopUp and stopDown
             if stopLeft < row2 < stopRight:  # Check if it is in between stopLeft and stopRight
