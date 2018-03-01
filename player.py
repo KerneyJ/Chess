@@ -1,4 +1,4 @@
-from pieces import *
+from ugraphic import *
 
 
 class Player(object):
@@ -31,8 +31,6 @@ class Player(object):
         row2 = -2
         col2 = -2
 
-
-
         if piece == "WP":  # if the piece was clicked on was a white pawn
             while not self.WPCanMove(row, col, row2, col2):
                 moveSpot = self.getTile(board, win)
@@ -49,7 +47,10 @@ class Player(object):
                 col2 = int(moveSpot.getP1().getY() / 64)
 
         if piece == "WR" or piece == "BR":
-            print(self.RookCanMove(row, col, row2, col2, board.b))
+            while not self.RookCanMove(row, col, row2, col2, board.b):
+                moveSpot = self.getTile(board, win)
+                row2 = int(moveSpot.getP1().getX() / 64)
+                col2 = int(moveSpot.getP1().getY() / 64)
 
             """
             while not self.RookCanMove(row, col, row2, col2, board.b):
@@ -86,17 +87,42 @@ class Player(object):
 
         stopUp = 0
         stopRight = 0
+        stopLeft = 0
+        stopDown = 0
 
-        # check up
-        for i in range(6, -1, -1):
-            print(board[i][row])
-            if not board[i][row] is "EE":
+        # print(row, col)
+        for i in range(col-1, -1, -1):  # going up
+            # print(board[i][row])
+            if board[i][row] is not "EE":
                 stopUp = i
                 break
 
-        # check right
-        for i in range(7, -1, -1):
-            print(board[col][i])
-            if not board[col][i] is "EE":
+        for i in range(col+1, 8, 1):  # going down
+            # print(board[i][row])
+            if board[i][row] is not "EE":
+                stopDown = i
+                break
+
+        for i in range(row+1, 8, 1):  # going right
+            if board[col][i] is not "EE":
                 stopRight = i
                 break
+
+        for i in range(row-1, -1, -1):
+            #  print(board[col][i])
+            if board[col][i] is not "EE":
+                stopLeft = i
+                break
+
+        # print("Up: ", stopUp, "\nRight: ", stopRight, "\nDown: ", stopDown, "\nLeft: ", stopLeft)
+        if stopUp < col2 < stopDown:  # Check if it is in between stopUp and stopDown
+            if stopLeft < row2 < stopRight:  # Check if it is in between stopLeft and stopRight
+                if not (row == row2 and col == col2):  # Check if it is not the same spot
+                    if row == row2 or col == col2:  # Make sure it is still with the same row or column
+                        return True
+
+        return False
+
+
+
+

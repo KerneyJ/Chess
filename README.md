@@ -16,3 +16,4 @@ Images:
 ![alt text](https://github.com/KerneyJ/Chess/blob/v.-Alpha-0.3/Images/WQueen.png "Logo Title Text 1")
 ![alt text](https://github.com/KerneyJ/Chess/blob/v.-Alpha-0.3/Images/WKing.png "Logo Title Text 1")
 
+

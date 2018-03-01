@@ -27,7 +27,7 @@ class Board(object):
         self.b = [["BR","Bk","BB","BQ","BK","BB","Bk","BR"],
                   ["BP","BP","BP","BP","BP","BP","BP","BP"],
                   ["EE","EE","EE","EE","EE","EE","EE","EE"],
-                  ["EE","EE","EE","EE","EE","EE","EE","EE"],
+                  ["EE","EE","TP","EE","WR","EE","EE","TP"],
                   ["EE","EE","EE","EE","EE","EE","EE","EE"],
                   ["EE","EE","EE","EE","EE","EE","EE","EE"],
                   ["WP","WP","WP","WP","WP","WP","WP","WP"],
@@ -161,5 +161,10 @@ class Board(object):
 
                 elif self.b[i][j] is "WP":
                     img = Image(Point((j * 64) + 32, (i*64) + 32), "Images\WPawn.png")
+                    img.draw(win)
+                    self.pieces.append(img)
+
+                elif self.b[i][j] is "TP":
+                    img = Image(Point((j * 64) + 32, (i*64) + 32), "Images\TestPawn.png")
                     img.draw(win)
                     self.pieces.append(img)
