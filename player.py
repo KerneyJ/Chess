@@ -162,43 +162,60 @@ class Player(object):
 
     def KnightCanMove(self, row, col, row2, col2, board):
 
-        # Left up
-        if not board[col-1][row-2][0] is board[col][row][0]:
-            if row2 == row-2 and col2 == col-1:
-                return True
+        canLeft = not (row - 1 < 0 or row - 2 < 0)
+        canRight = not (row + 1 > 7 or row + 2 > 7)
+        canUp = not (col - 1 < 0 or col - 2 < 0)
+        canDown = not (col + 1 > 7 or col + 2 > 7)
 
-        # Left down
-        if not board[col+1][row-2][0] is board[col][row][0]:
-            if row2 == row-2 and col2 == col+1:
-                return True
+        if canLeft:
+            #Left up
+            if canUp:
+                if not board[col-1][row-2][0] is board[col][row][0]:
+                    if row2 == row-2 and col2 == col-1:
+                        return True
 
-        # Right up
-        if not board[col - 1][row + 2][0] is board[col][row][0]:
-            if row2 == row + 2 and col2 == col - 1:
-                return True
+            # Left down
+            if canDown:
+                if not board[col+1][row-2][0] is board[col][row][0]:
+                    if row2 == row-2 and col2 == col+1:
+                        return True
 
-        # Right down
-        if not board[col + 1][row + 2][0] is board[col][row][0]:
-            if row2 == row + 2 and col2 == col + 1:
-                return True
+        if canRight:
+            # Right up
+            if canUp:
+                if not board[col - 1][row + 2][0] is board[col][row][0]:
+                    if row2 == row + 2 and col2 == col - 1:
+                        return True
 
-        # Up left
-        if not board[col-2][row-1][0] is board[col][row][0]:
-            if row2 == row - 1 and col2 == col - 2:
-                return True
-        # Up right
-        if not board[col-2][row+1][0] is board[col][row][0]:
-            if row2 == row + 1 and col2 == col -2:
-                return True
+            # Right down
+            if canDown:
+                if not board[col + 1][row + 2][0] is board[col][row][0]:
+                    if row2 == row + 2 and col2 == col + 1:
+                        return True
 
-        # Down left
-        if not board[col+2][row-1][0] is board[col][row][0]:
-            if row2 == row - 1 and col2 == col + 2:
-                return True
-        # Down right
-        if not board[col+2][row+1][0] is board[col][row][0]:
-            if row2 == row + 1 and col2 == col + 2:
-                return True
+        if canUp:
+            # Up left
+            if canLeft:
+                if not board[col-2][row-1][0] is board[col][row][0]:
+                    if row2 == row - 1 and col2 == col - 2:
+                        return True
+            # Up right
+            if canRight:
+                if not board[col-2][row+1][0] is board[col][row][0]:
+                    if row2 == row + 1 and col2 == col -2:
+                        return True
+
+        if canDown:
+            # Down left
+            if canLeft:
+                if not board[col+2][row-1][0] is board[col][row][0]:
+                    if row2 == row - 1 and col2 == col + 2:
+                        return True
+            # Down right
+            if canRight:
+                if not board[col+2][row+1][0] is board[col][row][0]:
+                    if row2 == row + 1 and col2 == col + 2:
+                        return True
 
         return False
 
