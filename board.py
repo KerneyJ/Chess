@@ -18,24 +18,20 @@ layout
 from player import *
 
 
-class Tile(Rectangle):
-    num = 0
-
-    def __init__(self, p1, p2):
-        self.number = Tile.num
-        Rectangle.__init__(self, p1, p2)
-        Tile.num += 1
-
-    def __str__(self):
-        return "Tile No.: " + str(self.number)
-
-    """def __eq__(self, other):
-        return self.num == other.num and self.getP2() == other.getP2 and self.getP1() == other.getP1()"""
-
-
 class Board(object):
     def __init__(self):
+        """ Create methods for the board. Has a list of tiles, a list of pieces,
+            and a b which is a representation of the board. """
         self.tiles = self.__giveTiles()
+        self.pieces = []
+        self.b = [["BR","Bk","BB","BQ","BK","BB","Bk","BR"],
+                  ["BP","TP","BP","BP","BP","TP","BP","BP"],
+                  ["EE","EE","EE","EE","EE","EE","EE","EE"],
+                  ["EE","EE","EE","WB","EE","EE","EE","EE"],
+                  ["EE","EE","EE","EE","EE","EE","EE","EE"],
+                  ["EE","TP","EE","EE","EE","TP","EE","EE"],
+                  ["WP","WP","WP","WP","WP","WP","WP","WP"],
+                  ["WR","Wk","WB","WQ","WK","WB","Wk","WR"]]
 
     @staticmethod
     def __giveTiles():
@@ -43,7 +39,7 @@ class Board(object):
         for i in range(8):
             temp = []
             for j in range(8):
-                r = Tile(Point(i * 64, j * 64), Point((i * 64) + 64, (j * 64) + 64))
+                r = Rectangle(Point(i * 64, j * 64), Point((i * 64) + 64, (j * 64) + 64))
                 r.setFill(color_rgb(194, 144, 60))
                 if (i + 1) % 2 == 0 and (j + 1) % 2 == 0:
                     r.setFill(color_rgb(255, 255, 255))
@@ -55,7 +51,38 @@ class Board(object):
 
         return tiles
 
-    def drawBoard(self, win: GraphWin):
+    '''def __givePieces(self):
+        for i in range(8):
+            self.pieces.append(WhitePawn())
+
+        self.pieces.append(WhiteRook())
+        self.pieces.append(WhiteRook())
+
+        self.pieces.append(WhiteKnight())
+        self.pieces.append(WhiteKnight())
+
+        self.pieces.append(WhiteBishop())
+        self.pieces.append(WhiteBishop())
+
+        self.pieces.append(WhiteKing())
+        self.pieces.append(WhiteQueen())
+
+        for i in range(8):
+            self.pieces.append(BlackPawn())
+
+        self.pieces.append(BlackRook())
+        self.pieces.append(BlackRook())
+
+        self.pieces.append(BlackKnight())
+        self.pieces.append(BlackKnight())
+
+        self.pieces.append(BlackBishop())
+        self.pieces.append(BlackBishop())
+
+        self.pieces.append(BlackKing())
+        self.pieces.append(BlackQueen())'''
+
+    def drawBoard(self, win):
         for i in self.tiles:
             for j in i:
                 j.draw(win)
@@ -65,7 +92,79 @@ class Board(object):
             for j in i:
                 j.undraw()
 
-    def outputTileNums(self):
-        for i in self.tiles:
-            for j in i:
-                print(j.number)
+    def updateBoard(self, win):
+
+        for i in self.pieces:
+            i.undraw()
+
+        self.pieces = []
+
+        for i in range(len(self.b)):
+            for j in range(len(self.b[i])):
+
+                # Draw black pieces
+                if self.b[i][j] is "BR":
+                    img = Image(Point((j*64) + 32, (i*64) + 32), "Images\BRook.png")
+                    img.draw(win)
+                    self.pieces.append(img)
+
+                elif self.b[i][j] is "Bk":
+                    img = Image(Point((j * 64) + 32, (i*64) + 32), "Images\BKnight.png")
+                    img.draw(win)
+                    self.pieces.append(img)
+
+                elif self.b[i][j] is "BB":
+                    img = Image(Point((j * 64) + 32, (i*64) + 32), "Images\BBishop.png")
+                    img.draw(win)
+                    self.pieces.append(img)
+
+                elif self.b[i][j] is "BK":
+                    img = Image(Point((j * 64) + 32, (i*64) + 32), "Images\BKing.png")
+                    img.draw(win)
+                    self.pieces.append(img)
+
+                elif self.b[i][j] is "BQ":
+                    img = Image(Point((j * 64) + 32, (i*64) + 32), "Images\BQueen.png")
+                    img.draw(win)
+                    self.pieces.append(img)
+
+                elif self.b[i][j] is "BP":
+                    img = Image(Point((j * 64) + 32, (i*64) + 32), "Images\BPawn.png")
+                    img.draw(win)
+                    self.pieces.append(img)
+
+                # Draw white team
+                if self.b[i][j] is "WR":
+                    img = Image(Point((j*64) + 32, (i*64) + 32), "Images\WRook.png")
+                    img.draw(win)
+                    self.pieces.append(img)
+
+                elif self.b[i][j] is "Wk":
+                    img = Image(Point((j * 64) + 32, (i*64) + 32), "Images\WKnight.png")
+                    img.draw(win)
+                    self.pieces.append(img)
+
+                elif self.b[i][j] is "WB":
+                    img = Image(Point((j * 64) + 32, (i*64) + 32), "Images\WBishop.png")
+                    img.draw(win)
+                    self.pieces.append(img)
+
+                elif self.b[i][j] is "WK":
+                    img = Image(Point((j * 64) + 32, (i*64) + 32), "Images\WKing.png")
+                    img.draw(win)
+                    self.pieces.append(img)
+
+                elif self.b[i][j] is "WQ":
+                    img = Image(Point((j * 64) + 32, (i*64) + 32), "Images\WQueen.png")
+                    img.draw(win)
+                    self.pieces.append(img)
+
+                elif self.b[i][j] is "WP":
+                    img = Image(Point((j * 64) + 32, (i*64) + 32), "Images\WPawn.png")
+                    img.draw(win)
+                    self.pieces.append(img)
+
+                elif self.b[i][j] is "TP":
+                    img = Image(Point((j * 64) + 32, (i*64) + 32), "Images\TestPawn.png")
+                    img.draw(win)
+                    self.pieces.append(img)
