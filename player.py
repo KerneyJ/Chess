@@ -162,10 +162,10 @@ class Player(object):
 
     def KnightCanMove(self, row, col, row2, col2, board):
 
-        canLeft = not (row - 1 < 0 or row - 2 < 0)
-        canRight = not (row + 1 > 7 or row + 2 > 7)
-        canUp = not (col - 1 < 0 or col - 2 < 0)
-        canDown = not (col + 1 > 7 or col + 2 > 7)
+        canLeft = not row - 1 < 0 or not row - 2 < 0
+        canRight = not row + 1 > 7 or not row + 2 > 7
+        canUp = not col - 1 < 0 or not col - 2 < 0
+        canDown = not col + 1 > 7 or not col + 2 > 7
 
         if canLeft:
             #Left up
@@ -221,10 +221,8 @@ class Player(object):
 
     def BishopCanMove(self, row, col, row2, col2, board):
         pieceType = board[col][row][0]
-        direction = "N/A"
 
-        if row - row2 > 0 and col - col2 > 0: # Direction is Up Left
-            direction = "UL"
+        if row - row2 > 0 and col - col2 > 0:  # Direction is Up Left
             for i in range(8):
                 if col-i-1 < 0 or row-i-1 < 0 or not board[col-i-1][row-i-1] is "EE":
                     if not board[col-i-1][row-i-1][0] is board[col][row][0]:
@@ -235,8 +233,7 @@ class Player(object):
                 if row2 == row-i-1 and col2 == col-i-1:
                     return True
 
-        elif row - row2 < 0 and col - col2 > 0: # Direction is Up Right
-            direction = "UR"
+        elif row - row2 < 0 and col - col2 > 0:  # Direction is Up Right
 
             for i in range(8):
                 if col+i+1 < 0 or row-i-1 < 0 or not board[col+i+1][row-i-1] is "EE":
@@ -248,8 +245,7 @@ class Player(object):
                 if row2 == row-i-1 and col2 == col+i+1:
                     return True
 
-
-        elif row - row2 > 0 and col - col2 < 0: # Direction is Down Left
+        elif row - row2 > 0 and col - col2 < 0:  # Direction is Down Left
             for i in range(8):
                 if col-i-1 < 0 or row+i+1 < 0 or not board[col-i-1][row+i+1] is "EE":
                     if not board[col-i-1][row+i+1][0] is board[col][row][0]:
@@ -260,9 +256,7 @@ class Player(object):
                 if row2 == row+i+1 and col2 == col-i-1:
                     return True
 
-
-        elif row - row2 < 0 and col - col2 < 0: # Direction is Down Right
-            direction = "DR"
+        elif row - row2 < 0 and col - col2 < 0:  # Direction is Down Right
             for i in range(8):
                 if col+i+1 > 7 or row+i+1 > 7 or not board[col+i+1][row+i+1] is "EE":
                     if not board[col+i+1][row+i+1][0] is board[col][row][0]:
@@ -271,53 +265,6 @@ class Player(object):
 
                 if row2 == row-i-1 and col2 == col-i-1:
                     return True
-
-        print(direction)
-
-        """
-        def getStop(start, stop, step, row=None, col=None):
-            if not (row is None):
-                for i in range(start, stop, step):
-                    if not board[i][row] is "EE":
-                        return i
-
-                return stop
-
-            elif not (col is None):
-                for i in range(start, stop, step):
-                    if not board[col][i] is "EE":
-                        return i
-
-                return stop
-
-            else:
-                raise AssertionError("Error row and column are none")
-            
-        stopUp = getStop(col - 1, -1, -1, row=row)
-        stopDown = getStop(col + 1, 8, 1, row=row)
-        stopRight = getStop(row + 1, 8, 1, col=col)
-        stopLeft = getStop(row - 1, -1, -1, col=col)
-
-        if not board[col][row][0] is board[col2][row2][0]:
-            print("Different teams")
-            print(verticalDirection, horizontalDirection)
-            if verticalDirection is "N":
-                if horizontalDirection is "L":
-                    stopLeft -= 1
-                else:
-                    stopRight += 1
-            else:
-                if verticalDirection is "U":
-                    stopUp -= 1
-                else:
-                    stopDown += 1
-
-        # print("Up: ", stopUp, "\nRight: ", stopRight, "\nDown: ", stopDown, "\nLeft: ", stopLeft)
-        if stopUp < col2 < stopDown:  # Check if it is in between stopUp and stopDown
-            if stopLeft < row2 < stopRight:  # Check if it is in between stopLeft and stopRight
-                if not (row == row2 and col == col2):  # Check if it is not the same spot
-                    if row == row2 or col == col2:  # Make sure it is still with the same row or column
-                        return True"""
 
 
 
