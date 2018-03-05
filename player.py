@@ -67,6 +67,13 @@ class Player(object):
                 col2 = int(moveSpot.getP1().getY() / 64)
                 canMove = self.BishopCanMove(row, col, row2, col2, board.b)
 
+        elif piece == "WQ" or piece == "BQ":
+            while not canMove:
+                moveSpot = self.getTile(board, win)
+                row2 = int(moveSpot.getP1().getX() / 64)
+                col2 = int(moveSpot.getP1().getY() / 64)
+                canMove = self.QueenCanMove(row, col, row2, col2, board.b)
+
         board.b[col][row] = "EE"  # Set the place that was clicked on to an empty tile
         board.b[col2][row2] = piece
 
@@ -94,7 +101,6 @@ class Player(object):
 
     def RookCanMove(self, row, col, row2, col2, board):
 
-        pieceType = board[col][row][0]
         # print(row - row2)  If positive it goes left if negative it goes right
         # print(col - col2)  If positive it goes up if negative it goes down
         horizontalDirection = None  # 0 is left and 1 is right and 2 is not moving in this direction
@@ -162,52 +168,66 @@ class Player(object):
 
     def KnightCanMove(self, row, col, row2, col2, board):
 
-        # Left up
-        if not board[col-1][row-2][0] is board[col][row][0]:
-            if row2 == row-2 and col2 == col-1:
-                return True
+        canLeft = not row - 1 < 0 or not row - 2 < 0
+        canRight = not row + 1 > 7 or not row + 2 > 7
+        canUp = not col - 1 < 0 or not col - 2 < 0
+        canDown = not col + 1 > 7 or not col + 2 > 7
 
-        # Left down
-        if not board[col+1][row-2][0] is board[col][row][0]:
-            if row2 == row-2 and col2 == col+1:
-                return True
+        if canLeft:
+            #Left up
+            if canUp:
+                if not board[col-1][row-2][0] is board[col][row][0]:
+                    if row2 == row-2 and col2 == col-1:
+                        return True
 
-        # Right up
-        if not board[col - 1][row + 2][0] is board[col][row][0]:
-            if row2 == row + 2 and col2 == col - 1:
-                return True
+            # Left down
+            if canDown:
+                if not board[col+1][row-2][0] is board[col][row][0]:
+                    if row2 == row-2 and col2 == col+1:
+                        return True
 
-        # Right down
-        if not board[col + 1][row + 2][0] is board[col][row][0]:
-            if row2 == row + 2 and col2 == col + 1:
-                return True
+        if canRight:
+            # Right up
+            if canUp:
+                if not board[col - 1][row + 1][0] is board[col][row][0]:
+                    if row2 == row + 2 and col2 == col - 1:
+                        return True
 
-        # Up left
-        if not board[col-2][row-1][0] is board[col][row][0]:
-            if row2 == row - 1 and col2 == col - 2:
-                return True
-        # Up right
-        if not board[col-2][row+1][0] is board[col][row][0]:
-            if row2 == row + 1 and col2 == col -2:
-                return True
+            # Right down
+            if canDown:
+                if not board[col + 1][row + 2][0] is board[col][row][0]:
+                    if row2 == row + 2 and col2 == col + 1:
+                        return True
 
-        # Down left
-        if not board[col+2][row-1][0] is board[col][row][0]:
-            if row2 == row - 1 and col2 == col + 2:
-                return True
-        # Down right
-        if not board[col+2][row+1][0] is board[col][row][0]:
-            if row2 == row + 1 and col2 == col + 2:
-                return True
+        if canUp:
+            # Up left
+            if canLeft:
+                if not board[col-2][row-1][0] is board[col][row][0]:
+                    if row2 == row - 1 and col2 == col - 2:
+                        return True
+            # Up right
+            if canRight:
+                if not board[col-2][row+1][0] is board[col][row][0]:
+                    if row2 == row + 1 and col2 == col -2:
+                        return True
+
+        if canDown:
+            # Down left
+            if canLeft:
+                if not board[col+2][row-1][0] is board[col][row][0]:
+                    if row2 == row - 1 and col2 == col + 2:
+                        return True
+            # Down right
+            if canRight:
+                if not board[col+2][row+1][0] is board[col][row][0]:
+                    if row2 == row + 1 and col2 == col + 2:
+                        return True
 
         return False
 
     def BishopCanMove(self, row, col, row2, col2, board):
-        pieceType = board[col][row][0]
-        direction = "N/A"
 
-        if row - row2 > 0 and col - col2 > 0: # Direction is Up Left
-            direction = "UL"
+        if row - row2 > 0 and col - col2 > 0:  # Direction is Up Left
             for i in range(8):
                 if col-i-1 < 0 or row-i-1 < 0 or not board[col-i-1][row-i-1] is "EE":
                     if not board[col-i-1][row-i-1][0] is board[col][row][0]:
@@ -218,8 +238,7 @@ class Player(object):
                 if row2 == row-i-1 and col2 == col-i-1:
                     return True
 
-        elif row - row2 < 0 and col - col2 > 0: # Direction is Up Right
-            direction = "UR"
+        elif row - row2 < 0 and col - col2 > 0:  # Direction is Up Right
 
             for i in range(8):
                 if col+i+1 < 0 or row-i-1 < 0 or not board[col+i+1][row-i-1] is "EE":
@@ -231,8 +250,7 @@ class Player(object):
                 if row2 == row-i-1 and col2 == col+i+1:
                     return True
 
-
-        elif row - row2 > 0 and col - col2 < 0: # Direction is Down Left
+        elif row - row2 > 0 and col - col2 < 0:  # Direction is Down Left
             for i in range(8):
                 if col-i-1 < 0 or row+i+1 < 0 or not board[col-i-1][row+i+1] is "EE":
                     if not board[col-i-1][row+i+1][0] is board[col][row][0]:
@@ -243,9 +261,7 @@ class Player(object):
                 if row2 == row+i+1 and col2 == col-i-1:
                     return True
 
-
-        elif row - row2 < 0 and col - col2 < 0: # Direction is Down Right
-            direction = "DR"
+        elif row - row2 < 0 and col - col2 < 0:  # Direction is Down Right
             for i in range(8):
                 if col+i+1 > 7 or row+i+1 > 7 or not board[col+i+1][row+i+1] is "EE":
                     if not board[col+i+1][row+i+1][0] is board[col][row][0]:
@@ -255,9 +271,68 @@ class Player(object):
                 if row2 == row-i-1 and col2 == col-i-1:
                     return True
 
-        print(direction)
+    def QueenCanMove(self, row, col, row2, col2, board):
 
-        """
+        horizontalDirection = None  # 0 is left and 1 is right and 2 is not moving in this direction
+        verticalDirection = None  # 0 is up and 1 is down and 2 is not moving in this direction
+        if row - row2 > 0 and col - col2 > 0:  # Direction is Up Left
+            for i in range(8):
+                if col-i-1 < 0 or row-i-1 < 0 or not board[col-i-1][row-i-1] is "EE":
+                    if not board[col-i-1][row-i-1][0] is board[col][row][0]:
+                        return True
+
+                    break
+
+                if row2 == row-i-1 and col2 == col-i-1:
+                    return True
+
+        elif row - row2 < 0 and col - col2 > 0:  # Direction is Up Right
+
+            for i in range(8):
+                if col+i+1 < 0 or row-i-1 < 0 or not board[col+i+1][row-i-1] is "EE":
+                    if not board[col+i+1][row-i-1][0] is board[col][row][0]:
+                        return True
+
+                    break
+
+                if row2 == row-i-1 and col2 == col+i+1:
+                    return True
+
+        elif row - row2 > 0 and col - col2 < 0:  # Direction is Down Left
+            for i in range(8):
+                if col-i-1 < 0 or row+i+1 < 0 or not board[col-i-1][row+i+1] is "EE":
+                    if not board[col-i-1][row+i+1][0] is board[col][row][0]:
+                        return True
+
+                    break
+
+                if row2 == row+i+1 and col2 == col-i-1:
+                    return True
+
+        elif row - row2 < 0 and col - col2 < 0:  # Direction is Down Right
+            for i in range(8):
+                if col+i+1 > 7 or row+i+1 > 7 or not board[col+i+1][row+i+1] is "EE":
+                    if not board[col+i+1][row+i+1][0] is board[col][row][0]:
+                        return True
+                    break
+
+                if row2 == row-i-1 and col2 == col-i-1:
+                    return True
+
+        if row - row2 > 0:
+            horizontalDirection = "L"
+        elif row - row2 < 0:
+            horizontalDirection = "R"
+        else:
+            horizontalDirection = "N"
+
+        if col - col2 > 0:
+            verticalDirection = "U"
+        elif col - col2 < 0:
+            verticalDirection = "D"
+        else:
+            verticalDirection = "N"
+
         def getStop(start, stop, step, row=None, col=None):
             if not (row is None):
                 for i in range(start, stop, step):
@@ -275,7 +350,7 @@ class Player(object):
 
             else:
                 raise AssertionError("Error row and column are none")
-            
+
         stopUp = getStop(col - 1, -1, -1, row=row)
         stopDown = getStop(col + 1, 8, 1, row=row)
         stopRight = getStop(row + 1, 8, 1, col=col)
@@ -300,7 +375,10 @@ class Player(object):
             if stopLeft < row2 < stopRight:  # Check if it is in between stopLeft and stopRight
                 if not (row == row2 and col == col2):  # Check if it is not the same spot
                     if row == row2 or col == col2:  # Make sure it is still with the same row or column
-                        return True"""
+                        return True
+
+        return False
+
 
 
 
