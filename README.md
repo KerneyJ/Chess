@@ -1,6 +1,5 @@
 # Chess
-### version Alpha 1.0.0 update notes
-Images:
+### version Alpha 1.4 update notes
 
 ![alt text](https://github.com/KerneyJ/Chess/blob/v.-Alpha-0.3/Images/BPawn.png "Logo Title Text 1")
 ![alt text](https://github.com/KerneyJ/Chess/blob/v.-Alpha-0.3/Images/BRook.png "Logo Title Text 1")
