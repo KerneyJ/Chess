@@ -39,9 +39,9 @@ while play:
         g.player1.select(win, g.board, g)
         #print("p1")
 
-    '''else:
+    else:
         g.player2.select(win, g.board, g)
-        #print("p2")'''
+        #print("p2")
 
     g.board.updateBoard(win)
     k = win.checkKey()

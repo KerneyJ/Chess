@@ -28,8 +28,6 @@ class Player(object):
     def select(self, win: GraphWin, board, game):
 
         piece, row, col = self.selectPiece(board, win)
-        row2 = 0
-        col2 = 0
         canMove = False
 
         if piece == "WP":  # if the piece was clicked on was a white pawn
@@ -73,6 +71,13 @@ class Player(object):
                 row2 = int(moveSpot.getP1().getX() / 64)
                 col2 = int(moveSpot.getP1().getY() / 64)
                 canMove = self.QueenCanMove(row, col, row2, col2, board.b)
+
+        elif piece == "WK" or piece == "BK":
+            while not canMove:
+                moveSpot = self.getTile(board, win)
+                row2 = int(moveSpot.getP1().getX() / 64)
+                col2 = int(moveSpot.getP1().getY() / 64)
+                canMove = self.KingCanMove(row, col, row2, col2, board.b)
 
         board.b[col][row] = "EE"  # Set the place that was clicked on to an empty tile
         board.b[col2][row2] = piece
@@ -376,6 +381,19 @@ class Player(object):
                 if not (row == row2 and col == col2):  # Check if it is not the same spot
                     if row == row2 or col == col2:  # Make sure it is still with the same row or column
                         return True
+
+        return False
+
+    def KingCanMove(self, row, col, row2, col2, board):
+        if (row2 == row and col2 == col-1) or\
+                (row2 == row-1 and col2 == col-1) or\
+                (row2 == row+1 and col2 == col-1) or\
+                (row2 == row-1 and col2 == col) or\
+                (row2 == row+1 and col2 == col) or\
+                (row2 == row-1 and col2 == col + 1) or\
+                (row2 == row and col2 == col+1) or\
+                (row2 == row+1 and col2 == col+1):
+            return True
 
         return False
 

@@ -25,11 +25,11 @@ class Board(object):
         self.tiles = self.__giveTiles()
         self.pieces = []
         self.b = [["BR","Bk","BB","BQ","BK","BB","Bk","BR"],
-                  ["BP","TP","BP","TP","BP","TP","BP","BP"],
+                  ["BP","BP","BP","BP","BP","BP","BP","BP"],
                   ["EE","EE","EE","EE","EE","EE","EE","EE"],
-                  ["EE","TP","EE","WQ","EE","TP","EE","EE"],
                   ["EE","EE","EE","EE","EE","EE","EE","EE"],
-                  ["EE","TP","EE","TP","EE","TP","EE","EE"],
+                  ["EE","EE","EE","EE","EE","EE","EE","EE"],
+                  ["EE","EE","EE","EE","EE","EE","EE","EE"],
                   ["WP","WP","WP","WP","WP","WP","WP","WP"],
                   ["WR","Wk","WB","WQ","WK","WB","Wk","WR"]]
 
