@@ -25,11 +25,11 @@ class Board(object):
         self.tiles = self.__giveTiles()
         self.pieces = []
         self.b = [["BR","Bk","BB","BQ","BK","BB","Bk","BR"],
-                  ["BP","TP","BP","BP","BP","TP","BP","BP"],
+                  ["BP","BP","BP","BP","BP","BP","BP","BP"],
                   ["EE","EE","EE","EE","EE","EE","EE","EE"],
-                  ["EE","EE","EE","WB","EE","EE","EE","EE"],
                   ["EE","EE","EE","EE","EE","EE","EE","EE"],
-                  ["EE","TP","EE","EE","EE","TP","EE","EE"],
+                  ["EE","EE","EE","EE","EE","EE","EE","EE"],
+                  ["EE","EE","EE","EE","EE","EE","EE","EE"],
                   ["WP","WP","WP","WP","WP","WP","WP","WP"],
                   ["WR","Wk","WB","WQ","WK","WB","Wk","WR"]]
 
@@ -50,37 +50,6 @@ class Board(object):
             tiles.append(temp)
 
         return tiles
-
-    '''def __givePieces(self):
-        for i in range(8):
-            self.pieces.append(WhitePawn())
-
-        self.pieces.append(WhiteRook())
-        self.pieces.append(WhiteRook())
-
-        self.pieces.append(WhiteKnight())
-        self.pieces.append(WhiteKnight())
-
-        self.pieces.append(WhiteBishop())
-        self.pieces.append(WhiteBishop())
-
-        self.pieces.append(WhiteKing())
-        self.pieces.append(WhiteQueen())
-
-        for i in range(8):
-            self.pieces.append(BlackPawn())
-
-        self.pieces.append(BlackRook())
-        self.pieces.append(BlackRook())
-
-        self.pieces.append(BlackKnight())
-        self.pieces.append(BlackKnight())
-
-        self.pieces.append(BlackBishop())
-        self.pieces.append(BlackBishop())
-
-        self.pieces.append(BlackKing())
-        self.pieces.append(BlackQueen())'''
 
     def drawBoard(self, win):
         for i in self.tiles:
