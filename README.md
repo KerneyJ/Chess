@@ -18,7 +18,7 @@ Images:
 
 
 # v.-Alpha-0.1 to v.-Alpha-1.6
-All pieces work in isolation
+###All pieces work in isolation
 
 ## Bugs:
 Black knight first move:
