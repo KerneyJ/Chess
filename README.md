@@ -21,7 +21,7 @@ Images:
 ### All pieces work in isolation
 
 ## Bugs:
-'''javascript
+''' javascript
 Black knight first move:
 Traceback (most recent call last):
   File "I:/Desktop/Chess-v.-Alpha-1.5/game.py", line 43, in <module>
