@@ -21,6 +21,7 @@ Images:
 ### All pieces work in isolation
 
 ## Bugs:
+'''javascript
 Black knight first move:
 Traceback (most recent call last):
   File "I:/Desktop/Chess-v.-Alpha-1.5/game.py", line 43, in <module>
@@ -30,3 +31,4 @@ Traceback (most recent call last):
   File "I:\Desktop\Chess-v.-Alpha-1.5\player.py", line 203, in KnightCanMove
     if not board[col + 1][row + 2][0] is board[col][row][0]:
 IndexError: list index out of range
+'''
