@@ -17,3 +17,16 @@ Images:
 ![alt text](https://github.com/KerneyJ/Chess/blob/v.-Alpha-0.3/Images/WKing.png "Logo Title Text 1")
 
 
+# v.-Alpha-0.1 to v.-Alpha-1.6
+All pieces work in isolation
+
+## Bugs:
+Black knight first move:
+Traceback (most recent call last):
+  File "I:/Desktop/Chess-v.-Alpha-1.5/game.py", line 43, in <module>
+    g.player2.select(win, g.board, g)
+  File "I:\Desktop\Chess-v.-Alpha-1.5\player.py", line 59, in select
+    canMove = self.KnightCanMove(row, col, row2, col2, board.b)
+  File "I:\Desktop\Chess-v.-Alpha-1.5\player.py", line 203, in KnightCanMove
+    if not board[col + 1][row + 2][0] is board[col][row][0]:
+IndexError: list index out of range
